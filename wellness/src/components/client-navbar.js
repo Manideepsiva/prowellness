@@ -25,7 +25,7 @@ function ProfileCard() {
         
     const decoded = jwtDecode(token);
     const userid = decoded.id;
-    const response = await fetch(`https://prowellness-liart.vercel.app/api/changepassword/${userid}`, {
+    const response = await fetch(`https://prowellness-eight.vercel.app/api/changepassword/${userid}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ function ProfileCard() {
         
         const decoded = jwtDecode(token);
         const userid = decoded.id;
-        const response = await fetch(`https://prowellness-liart.vercel.app/api/getprofile/${userid}`, {
+        const response = await fetch(`https://prowellness-eight.vercel.app/api/getprofile/${userid}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

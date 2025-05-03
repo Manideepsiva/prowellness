@@ -8,7 +8,7 @@ const Hospitaladminupcoming = () => {
 
   const fetchAppointments = async (hospitalId) => {
     try {
-      const response = await axios.get(`https://prowellness-liart.vercel.app/api/hospitalUpcoming?hospitalId=${hospitalId}`);
+      const response = await axios.get(`https://prowellness-eight.vercel.app/api/hospitalUpcoming?hospitalId=${hospitalId}`);
       setAppointments(response.data);
     } catch (error) {
       console.error('Error fetching appointments:', error);
@@ -35,7 +35,7 @@ const Hospitaladminupcoming = () => {
 
     if (confirmation) {
       try {
-        const response = await axios.post('https://prowellness-liart.vercel.app/api/hospitalcancel', {
+        const response = await axios.post('https://prowellness-eight.vercel.app/api/hospitalcancel', {
           appointmentId: appointment._id 
         });
 

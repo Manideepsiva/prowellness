@@ -72,7 +72,7 @@ const checkauth = async () => {
     return { isAuthenticated: false, role: null };
   }
 
-  const response = await fetch('https://prowellness-liart.vercel.app/api/verify-token', {
+  const response = await fetch('https://prowellness-eight.vercel.app/api/verify-token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ const router = createBrowserRouter([{
 
 
 
-    const response = await fetch('https://prowellness-liart.vercel.app/api/register', {
+    const response = await fetch('https://prowellness-eight.vercel.app/api/register', {
       method: 'POST',
       body: JSON.stringify({ usermail, password,username,age }),
       headers: { 'Content-Type': 'application/json' },
@@ -199,7 +199,7 @@ action : async({request})=>{
 
 
 
-  const response = await fetch("https://prowellness-liart.vercel.app/api/login",{
+  const response = await fetch("https://prowellness-eight.vercel.app/api/login",{
     method:'POST',
     body:JSON.stringify({usermail,password}),
     headers:{'Content-Type':'application/json'},
@@ -251,7 +251,7 @@ action : async({request})=>{
     const formdata = await request.formData();
     const usermail = formdata.get('loginId');
     const password = formdata.get('password');
-    const response = await fetch("https://prowellness-liart.vercel.app/api/hospitallogin",{
+    const response = await fetch("https://prowellness-eight.vercel.app/api/hospitallogin",{
       method:'POST',
       body:JSON.stringify({usermail,password}),
       headers:{'Content-Type':'application/json'},
@@ -314,7 +314,7 @@ action : async({request})=>{
   }
 
   // Submit data
-  const response = await fetch('https://prowellness-liart.vercel.app/api/hospitalregistration', {
+  const response = await fetch('https://prowellness-eight.vercel.app/api/hospitalregistration', {
     method: 'POST',
     body: data,
   });
@@ -353,7 +353,7 @@ action : async({request})=>{
       const formdata = await request.formData();
       const usermail = formdata.get('loginId');
       const password = formdata.get('password');
-      const response = await fetch("https://prowellness-liart.vercel.app/api/adminlogin",{
+      const response = await fetch("https://prowellness-eight.vercel.app/api/adminlogin",{
         method:'POST',
         body:JSON.stringify({usermail,password}),
         headers:{'Content-Type':'application/json'},

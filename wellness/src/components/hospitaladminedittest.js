@@ -57,7 +57,7 @@ const DiagnosticTests = () => {
     const hospitalId = getHospitalIdFromToken();
     if (hospitalId) {
       try {
-        const response = await fetch(`https://prowellness-liart.vercel.app/api/hospitalavailableTests?hospitalId=${hospitalId}`);
+        const response = await fetch(`https://prowellness-eight.vercel.app/api/hospitalavailableTests?hospitalId=${hospitalId}`);
         const data = await response.json();
         console.log(data)
         setAvailableTests(data); 
@@ -184,7 +184,7 @@ const DiagnosticTests = () => {
     const decoded = jwtDecode(token);
     const hospitalId = decoded.id;
     try{
-        const response = await axios.post(`https://prowellness-liart.vercel.app/api/hospitalupdatetest?hospitalid=${hospitalId}`, {selectedTests});
+        const response = await axios.post(`https://prowellness-eight.vercel.app/api/hospitalupdatetest?hospitalid=${hospitalId}`, {selectedTests});
     }catch (error) {
         console.error('Error sending selected tests:', error);
     }

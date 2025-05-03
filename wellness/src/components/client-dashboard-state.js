@@ -52,7 +52,7 @@ function Clientstate({
             if (value.trim() !== "") {
               try {
                 const response = await fetch(
-                  "https://prowellness-liart.vercel.app/api/Statesuggestions",
+                  "https://prowellness-eight.vercel.app/api/Statesuggestions",
                   {
                     method: "POST",
                     headers: {
@@ -144,7 +144,7 @@ function Clientstate({
             if (value.trim() !== "") {
               try {
                 const response = await fetch(
-                  "https://prowellness-liart.vercel.app/api/Districtsuggestions",
+                  "https://prowellness-eight.vercel.app/api/Districtsuggestions",
                   {
                     method: "POST",
                     headers: {

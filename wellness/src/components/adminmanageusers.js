@@ -20,7 +20,7 @@ const ManageClients = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('https://prowellness-liart.vercel.app/api/admingetusers'); // Fetch users from API
+        const response = await axios.get('https://prowellness-eight.vercel.app/api/admingetusers'); // Fetch users from API
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -33,7 +33,7 @@ const ManageClients = () => {
   // Delete user by id (also updates the database)
   const handleDelete = async (userId) => {
     try {
-      await axios.post(`https://prowellness-liart.vercel.app/api/admindeleteuser/${userId}`); // Delete user from API
+      await axios.post(`https://prowellness-eight.vercel.app/api/admindeleteuser/${userId}`); // Delete user from API
       const updatedUsers = users.filter((user) => user._id !== userId); // Update state after deletion
       setUsers(updatedUsers);
     } catch (error) {

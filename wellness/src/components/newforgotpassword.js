@@ -35,7 +35,7 @@ const ResetPassword = () => {
     }
     try {
       const response = await axios.post(
-        "https://prowellness-liart.vercel.app/api/reset-password",
+        "https://prowellness-eight.vercel.app/api/reset-password",
         { token, newPassword }
       );
       setMessage(response.data.message);

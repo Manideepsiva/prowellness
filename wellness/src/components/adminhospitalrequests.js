@@ -16,7 +16,7 @@ const ManageHospitalRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const response = await fetch('https://prowellness-liart.vercel.app/api/adminhospitalrequests');
+      const response = await fetch('https://prowellness-eight.vercel.app/api/adminhospitalrequests');
       if (!response.ok) {
         throw new Error('Failed to fetch requests');
       }
@@ -47,7 +47,7 @@ const ManageHospitalRequests = () => {
 
   const handleAccept = async (request) => {
     try {
-      const response = await fetch('https://prowellness-liart.vercel.app/api/acceptHospitalRequest', {
+      const response = await fetch('https://prowellness-eight.vercel.app/api/acceptHospitalRequest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ const ManageHospitalRequests = () => {
 
   const handleReject = async (id) => {
     try {
-      const response = await fetch("https://prowellness-liart.vercel.app/api/rejectHospitalRequest", {
+      const response = await fetch("https://prowellness-eight.vercel.app/api/rejectHospitalRequest", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -135,28 +135,28 @@ const ManageHospitalRequests = () => {
                     <ul style={{ listStyleType: 'none', paddingLeft: '0' }}>
                       {request.document1 && (
                         <li style={{ marginBottom: '5px' }}>
-                          <a href={`https://prowellness-liart.vercel.app/${request.document1}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
+                          <a href={`https://prowellness-eight.vercel.app/${request.document1}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
                             Business License
                           </a>
                         </li>
                       )}
                       {request.document2 && (
                         <li style={{ marginBottom: '5px' }}>
-                          <a href={`https://prowellness-liart.vercel.app/${request.document2}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
+                          <a href={`https://prowellness-eight.vercel.app/${request.document2}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
                             NABH Accreditation
                           </a>
                         </li>
                       )}
                       {request.document3 && (
                         <li style={{ marginBottom: '5px' }}>
-                          <a href={`https://prowellness-liart.vercel.app/${request.document3}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
+                          <a href={`https://prowellness-eight.vercel.app/${request.document3}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
                             ISO Certificate
                           </a>
                         </li>
                       )}
                       {request.document4 && (
                         <li style={{ marginBottom: '5px' }}>
-                          <a href={`https://prowellness-liart.vercel.app/${request.document4}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
+                          <a href={`https://prowellness-eight.vercel.app/${request.document4}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
                             Laboratory License
                           </a>
                         </li>

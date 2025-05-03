@@ -20,7 +20,7 @@ const CompletedAppointments = () => {
       const decoded = jwtDecode(token);
       const hospitalId = decoded.id;
       const response = await axios.get(
-        `https://prowellness-liart.vercel.app/api/hospitalcompletedappointments?hospitalId=${hospitalId}`
+        `https://prowellness-eight.vercel.app/api/hospitalcompletedappointments?hospitalId=${hospitalId}`
       );
       setAppointments(response.data);
     } catch (error) {
@@ -53,7 +53,7 @@ const CompletedAppointments = () => {
 
     try {
       // Send the file to the server
-      await axios.post(`https://prowellness-liart.vercel.app/api/hospitalupload/${appointmentId}`, formData, {
+      await axios.post(`https://prowellness-eight.vercel.app/api/hospitalupload/${appointmentId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -71,7 +71,7 @@ const CompletedAppointments = () => {
 
   const renderDocument = (documentPath) => {
     return (
-      <a href={`https://prowellness-liart.vercel.app/${documentPath}`} target="_blank" rel="noopener noreferrer">
+      <a href={`https://prowellness-eight.vercel.app/${documentPath}`} target="_blank" rel="noopener noreferrer">
         View Document
       </a>
     );

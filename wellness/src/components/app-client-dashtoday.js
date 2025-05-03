@@ -16,7 +16,7 @@ function ClientAppointmentDashtoday() {
                 const token = localStorage.getItem('token');
                 const decoded = jwtDecode(token);
                 const id = decoded.id;
-                const response = await fetch(`https://prowellness-liart.vercel.app/api/clienttodayappoints/${id}`); // Adjust the API endpoint as needed
+                const response = await fetch(`https://prowellness-eight.vercel.app/api/clienttodayappoints/${id}`); // Adjust the API endpoint as needed
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

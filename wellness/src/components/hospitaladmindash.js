@@ -26,7 +26,7 @@ const HospitalDashboard = () => {
        
           const decoded = jwtDecode(token);
           const hospitalId = decoded.id;  
-        const response = await fetch(`https://prowellness-liart.vercel.app/api/hospital-dashboard?hospitalId=${hospitalId}`); 
+        const response = await fetch(`https://prowellness-eight.vercel.app/api/hospital-dashboard?hospitalId=${hospitalId}`); 
         const data = await response.json();
 
         // Set state with the fetched data
