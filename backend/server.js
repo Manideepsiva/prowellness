@@ -35,7 +35,7 @@ app.use(cors({
   origin: 'https://prowellness-9gj1.vercel.app'
 })); 
 app.use(express.json());
-app.get("/",(req,res)=>{
+app.get("/namaste",(req,res)=>{
   res.json("hello there");
 })
 
