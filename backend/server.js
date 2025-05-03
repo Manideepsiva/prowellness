@@ -33,6 +33,9 @@ let typestest;
 var app = express();
 app.use(cors());    
 app.use(express.json());
+app.get("/",(req,res)=>{
+  res.json("hello there");
+})
 
 async function sendVerificationEmail(usermail,verificationLink) {
   const transporter = nodemailer.createTransport({
