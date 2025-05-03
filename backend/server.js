@@ -35,9 +35,7 @@ app.use(cors({
   origin: 'https://prowellness-9gj1.vercel.app'
 })); 
 app.use(express.json());
-app.get("/namaste",(req,res)=>{
-  res.json("hello there");
-})
+
 
 async function sendVerificationEmail(usermail,verificationLink) {
   const transporter = nodemailer.createTransport({
@@ -77,26 +75,22 @@ const storage = multer.diskStorage({
 const SECRET_KEY = "life is so hectic";
 
 
-async function connectbase(){
-  try{
-    const conn = await mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
-  } catch(error){
-    console.log(error);
-  }
-}
 
-mongoose.set('bufferCommands', false);
-mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/project-nexus-react?retryWrites=true&w=majority&appName=Cluster0', {
+
+ mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/project-nexus-react?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 20000, 
 })
 .then(() => {
   console.log('✅ Connected to MongoDB Atlas');
+  mongoose.set('bufferCommands', false);
 })
 .catch((err) => {
   console.error('❌ MongoDB connection error:', err);
 });
+
+
 async function gettest(){
     const doc = await testnames.findOne({ id: 1 }); 
    console.log(doc);
@@ -118,6 +112,10 @@ const authroute = (req,res,next)=>{
         next();
     })
 }
+
+app.get("/namaste",(req,res)=>{
+  res.json("hello there");
+})
 
 
 userRouter.post('/api/register',async(req,res)=>{
