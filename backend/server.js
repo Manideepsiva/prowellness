@@ -75,20 +75,20 @@ const storage = multer.diskStorage({
 const SECRET_KEY = "life is so hectic";
 
 
+const startServer = async () => {
+  try {
 
 
- mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/project-nexus-react?retryWrites=true&w=majority&appName=Cluster0', {
+
+
+ await mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/project-nexus-react?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 20000, 
-})
-.then(() => {
-  console.log('✅ Connected to MongoDB Atlas');
-  mongoose.set('bufferCommands', false);
-})
-.catch((err) => {
-  console.error('❌ MongoDB connection error:', err);
 });
+
+console.log('✅ Connected to MongoDB');
+
 
 
 async function gettest(){
@@ -1535,6 +1535,17 @@ app.listen(3001,()=>{
     console.log("backend server running at 3001");
   
 })
+
+  }catch(error){
+
+    console.error('❌ Failed to connect to MongoDB:', error.message);
+    process.exit(1); // Exit process on failure
+
+  }}
+
+
+
+  startServer(); // Kick off the app
 
 
 
