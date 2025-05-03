@@ -85,10 +85,11 @@ async function connectbase(){
   }
 }
 
-
+mongoose.set('bufferCommands', false);
 mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/project-nexus-react?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 20000, 
 })
 .then(() => {
   console.log('✅ Connected to MongoDB Atlas');
