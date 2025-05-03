@@ -1,0 +1,321 @@
+:root {
+    --color-background-pay: #fae3ea;
+    --color-primary-pay: #fc8080;
+    --font-family-base-pay: Poppin, sans-serif;
+    --font-size-h1-pay: 1.25rem;
+    --font-size-h2-pay: 1rem;
+  }
+
+
+  .iphone {
+    margin-inline-start: 40rem;
+    margin-top: 2rem;
+    background-color: #fbf6f7;
+    background-image: linear-gradient(to bottom, #fbf6f7, #fff);
+    border-radius: 2em;
+    height: 880x;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.0625);
+    width: 775px;
+    overflow: auto;
+    padding: 2em;
+    overflow-y: hidden;
+    
+  }
+
+
+.iphone address {
+    font-style: normal;
+  }
+  
+  .iphone button {
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+  
+  .iphone fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .iphone h1 {
+    font-size: var(--font-size-h1-pay);
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 1.5em;
+  }
+  
+  .iphone h2 {
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+  }
+  
+  .iphone legend {
+    font-weight: 600;
+    margin-bottom: 0.5em;
+    padding: 0;
+  }
+  
+  .iphone input {
+    border: 0;
+    color: inherit;
+    font: inherit;
+  }
+  
+  .iphone input[type="radio"] {
+    accent-color: var(--color-primary-pay);
+  }
+  
+  .iphone table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .iphone tbody {
+    color: #b4b4b4;
+  }
+  
+  .iphone td {
+    padding-top: 0.125em;
+    padding-bottom: 0.125em;
+  }
+  
+  .iphone tfoot {
+    border-top: 1px solid #b4b4b4;
+    font-weight: 600;
+  }
+  
+  .iphone .align {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    place-items: center;
+  }
+  
+  .iphone .button {
+    align-items: center;
+    background-color: var(--color-primary-pay);
+    border-radius: 999em;
+    color: #fff;
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    padding: 0.75em 1em;
+    transition: 0.3s;
+  }
+  
+  .iphone .button:focus,
+  .iphone .button:hover {
+    background-color: #e96363;
+  }
+  
+  .iphone .button--full {
+    width: 100%;
+  }
+  
+  .iphone .card {
+    border-radius: 1em;
+    background-color: var(--color-primary-pay);
+    color: #fff;
+    padding: 1em;
+  }
+  
+  .iphone .form {
+    display: grid;
+    gap: 2em;
+  }
+  
+  .iphone .form__radios {
+    display: grid;
+    gap: 1em;
+  }
+  
+  .iphone .form__radio {
+    align-items: center;
+    justify-content: space-between;
+   border: 1px solid;
+    background-color: #fefdfe;
+    border-radius: 1em;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.0625);
+    display: flex;
+    padding: 1em;
+  }
+  
+  .iphone .form__radio label {
+   
+    align-items: center;
+    display: flex;
+    flex: 1;
+    gap: 1em;
+  }
+  
+  .iphone .header {
+    display: flex;
+    justify-content: center;
+    padding: 0.5em 1em;
+  }
+
+  .iphone .header h1{
+    font-size: medium;
+  }
+  
+  .iphone .icon {
+    height: 1em;
+    display: inline-block;
+    fill: currentColor;
+    width: 1em;
+    vertical-align: middle;
+  }
+
+
+  .toast {
+    visibility: hidden;
+    max-width: 50px;
+    height: 50px;
+    /*margin-left: -125px;*/
+    
+    background-color:#ffffff;
+    color: #000000;
+    text-align: center;
+    border-radius: 1rem;
+
+    
+    position: fixed;
+    z-index: 10;
+    left:0;
+    right: 0;
+    margin-inline: auto;
+    top: 30px;
+    font-size: 17px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.toast .img{
+  width: 50px;
+  height: 50px;
+    
+    float: left;
+    
+   padding-top: 8px;
+    
+    box-sizing: border-box;
+
+    
+    background-color:#4BB543;
+    color: #fff;
+}
+.toast .desc{
+
+    font-family: cursive;
+    color: #000000;
+   
+   text-align: center;
+   padding-top: 8px;
+    
+    overflow: hidden;
+  white-space: nowrap;
+}
+
+.toast.show {
+    visibility: visible;
+    animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+}
+
+
+
+
+
+
+
+
+.toast2 {
+  visibility: hidden;
+  max-width: 50px;
+  height: 50px;
+  /*margin-left: -125px;*/
+  
+  background-color:#ffffff;
+  color: #000000;
+  text-align: center;
+  border-radius: 1rem;
+
+  
+  position: fixed;
+  z-index: 10;
+  left:0;
+  right: 0;
+  margin-inline: auto;
+  top: 30px;
+  font-size: 17px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.toast2 .img2{
+width: 50px;
+height: 50px;
+  
+  float: left;
+  
+ padding-top: 8px;
+  
+  box-sizing: border-box;
+
+  
+  background-color:#ff2c2c;
+  color: #fff;
+}
+.toast2 .desc2{
+
+  font-family: cursive;
+  color: #000000;
+ 
+ text-align: center;
+ padding-top: 8px;
+  
+  overflow: hidden;
+white-space: nowrap;
+}
+
+.toast2.show {
+  visibility: visible;
+  animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+}
+
+
+
+
+@keyframes fadein {
+    from {top: 0; opacity: 0;}
+    to {top: 30px; opacity: 1;}
+}
+
+
+
+@keyframes expand {
+    from {min-width: 50px}
+    to {min-width: 350px}
+}
+
+
+@keyframes stay {
+    from {min-width: 350px}
+    to {min-width: 350px}
+}
+
+
+@keyframes shrink {
+    from {min-width: 350px;} 
+    to {min-width: 50px;}
+}
+
+
+
+@keyframes fadeout {
+    from {top: 30px; opacity: 1;}
+    to {top: 0px; opacity: 0;}
+}
+  

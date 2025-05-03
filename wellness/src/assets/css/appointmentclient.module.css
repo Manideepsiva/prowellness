@@ -1,0 +1,162 @@
+.wrap-app{
+ 
+    
+    display: flex;
+    justify-content: center;
+   
+    padding-block-start: 3rem;
+}
+
+.wrap-app a,
+.wrap-app img,
+.wrap-app span,
+.wrap-app time,
+.wrap-app input,
+.wrap-app button,
+.wrap-app ion-icon {
+  all: unset;
+}
+
+
+
+.wrap-app input{
+    width: unset;
+}
+
+
+.wrap-app  .container {
+    width: 800px;
+     
+    padding: 20px;
+    background-color: #fc8080;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    position:relative;
+}
+
+
+.wrap-app h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff
+}
+
+.wrap-app form {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrap-app label {
+    margin-bottom: 10px;
+    font-weight: bold;
+    position: relative;
+    color:  #fff
+}
+
+.wrap-app  .address-details{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
+}
+
+
+
+/* Remove star for Additional Message field */
+.wrap-app label[for="message"]::before {
+    content: "";
+}
+
+
+
+.wrap-app input,.wrap-app textarea,.wrap-app select {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    flex-grow: 1;
+}
+
+
+
+.wrap-app input[type="submit"] {
+    background-color: darkturquoise;
+    border-radius: 60px;
+    color: rgb(88, 11, 11);
+    border: none;
+    cursor: pointer;
+}
+
+.wrap-app input[type="submit"]:hover {
+    background-color: #aab56e;
+}
+
+.wrap-app .note {
+    font-style: italic;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #895454;
+}
+
+.wrap-app .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.wrap-app .modal-content {
+    background-color: #155b51;
+    margin: auto;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 300px;
+}
+
+.wrap-app #successMessage {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.wrap-app .time-slots {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap:1rem;
+}
+
+.wrap-app textarea{
+    border-radius: 5px;
+}
+
+.wrap-app .time-slots label {
+    flex-basis: calc(20% - 10px); /* Adjust width based on the number of slots */
+}
+
+.wrap-app  h2 {
+    position: absolute;
+left: 50%;
+top: 2%; 
+transform: translateX(-20%);
+font-family: "Lucida Calligraphy", "Lucida Bright", cursive;
+font-size: 28px; 
+font-weight: bold; 
+font-style: italic; 
+
+letter-spacing: 2px; 
+color: #333; 
+text-shadow: 2px 2px 2px rgba(0,0,0,0.2); 
+}
+
+.wrap-app .typetest{
+display: none;
+}
