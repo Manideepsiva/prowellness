@@ -31,7 +31,9 @@ let typestest;
 
 
 var app = express();
-app.use(cors());    
+app.use(cors({
+  origin: 'https://prowellness-9gj1.vercel.app'
+})); 
 app.use(express.json());
 app.get("/",(req,res)=>{
   res.json("hello there");
