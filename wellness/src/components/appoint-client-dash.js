@@ -16,7 +16,7 @@ function ClientAppointmentDash() {
                 const token = localStorage.getItem('token');
                   const decoded = jwtDecode(token);
                   const id = decoded.id;
-                const response =await fetch('http://localhost:3001/api/clientupcomingappointments', {
+                const response =await fetch('https://prowellness-liart.vercel.app/api/clientupcomingappointments', {
                     method: 'POST', // Set the method to POST
                     headers: {
                         'Content-Type': 'application/json', // Specify the content type

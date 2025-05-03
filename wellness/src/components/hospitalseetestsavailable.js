@@ -15,7 +15,7 @@ const Hospitalavailableseetests = () => {
                 const decoded = jwtDecode(token);
                 const hospitalId = decoded.id;
 
-                const response = await axios.get(`http://localhost:3001/api/hospitalseeavilable?hospitalId=${hospitalId}`);
+                const response = await axios.get(`https://prowellness-liart.vercel.app/api/hospitalseeavilable?hospitalId=${hospitalId}`);
                 
              
                 const testData = Object.entries(response.data).map(([testName, price]) => ({ testName, price }));

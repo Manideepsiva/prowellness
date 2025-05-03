@@ -37,7 +37,7 @@ const handleclick2 = async () =>{
   else{
     console.log("state and dist ",state,district)
 
-    const response = await fetch('http://localhost:3001/api/bothcheck', {
+    const response = await fetch('https://prowellness-liart.vercel.app/api/bothcheck', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', 
@@ -73,7 +73,7 @@ const handleclick2 = async () =>{
       setError("Please Enter Diasgnostic Test name ");
     }
   else{
-    const response = await fetch('http://localhost:3001/api/Testcheck', {
+    const response = await fetch('https://prowellness-liart.vercel.app/api/Testcheck', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', 

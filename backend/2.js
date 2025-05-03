@@ -129,7 +129,7 @@ app.post('/api/register',async(req,res)=>{
       expiresIn: "1h", // Token valid for 1 hour
     });
 
-    const verificationLink = `http://localhost:3001/verify-email?token=${verificationToken}`;
+    const verificationLink = `https://prowellness-liart.vercel.app/verify-email?token=${verificationToken}`;
     await sendVerificationEmail(usermail, verificationLink);
     res.status(200).json({ message: "Verification email sent" });
 

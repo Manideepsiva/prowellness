@@ -11,7 +11,7 @@ const ManageAppointments = () => {
   const handleSearch = async () => {
     if (!searchTerm) return;
     try {
-      const response = await axios.get(`http://localhost:3001/api/adminmanageappointments?email=${searchTerm}&status=${statusFilter}`);
+      const response = await axios.get(`https://prowellness-liart.vercel.app/api/adminmanageappointments?email=${searchTerm}&status=${statusFilter}`);
       setAppointments(response.data);
       setNoAppointments(response.data.length === 0);
     } catch (error) {
@@ -24,9 +24,9 @@ const ManageAppointments = () => {
   const handleCancelAppointment = async (appointmentId) => {
     try {
       console.log("Cancelled appointment ID:", appointmentId);
-      await axios.get(`http://localhost:3001/api/admincancelappointment?appointmentId=${appointmentId}`);
+      await axios.get(`https://prowellness-liart.vercel.app/api/admincancelappointment?appointmentId=${appointmentId}`);
 
-      const response = await axios.get(`http://localhost:3001/api/adminmanageappointments?email=${searchTerm}&status=${statusFilter}`);
+      const response = await axios.get(`https://prowellness-liart.vercel.app/api/adminmanageappointments?email=${searchTerm}&status=${statusFilter}`);
       setAppointments(response.data);
     } catch (error) {
       console.error('Error canceling appointment:', error);

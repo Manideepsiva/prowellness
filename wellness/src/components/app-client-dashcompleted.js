@@ -16,7 +16,7 @@ function ClientAppointmentDashcomp() {
                 const userId = decoded.id; // Extract user ID from the token
 
                 // Fetch appointments with patientStatus of 3 and not cancelled (1)
-                const response = await fetch(`http://localhost:3001/api/clientcompletedappointments/${userId}`);
+                const response = await fetch(`https://prowellness-liart.vercel.app/api/clientcompletedappointments/${userId}`);
                 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -92,7 +92,7 @@ function ClientAppointmentDashcomp() {
                                         </div>
                                     </div>
 
-                                    <div style={{marginLeft:"auto", textDecoration:"underline"}}>{<a href={`http://localhost:3001/${appointment.path}`} target="_blank" rel="noopener noreferrer">
+                                    <div style={{marginLeft:"auto", textDecoration:"underline"}}>{<a href={`https://prowellness-liart.vercel.app/${appointment.path}`} target="_blank" rel="noopener noreferrer">
 View Results</a>} </div>
                                 </div>
                             </div>

@@ -13,7 +13,7 @@ const decoded = jwtDecode(token);
 const hospitalId = decoded.id;
 
   try {
-    const response = await axios.get(`http://localhost:3001/api/hospitaltodayappointments?hospitalId=${hospitalId}`);
+    const response = await axios.get(`https://prowellness-liart.vercel.app/api/hospitaltodayappointments?hospitalId=${hospitalId}`);
     setPatients(response.data);
     console.log(response.data);
   } catch (error) {
@@ -31,7 +31,7 @@ const hospitalId = decoded.id;
 
   const handleSamplesTaken = async (appointmentId) => {
     try {
-      await axios.post(`http://localhost:3001/api/hospitalupdatepatientstatus/${appointmentId}`);
+      await axios.post(`https://prowellness-liart.vercel.app/api/hospitalupdatepatientstatus/${appointmentId}`);
      fetchTodayAppointments();
     } catch (error) {
       console.error('Error updating patient status:', error);
@@ -58,7 +58,7 @@ const hospitalId = decoded.id;
 
 
     try {
-        const response = await axios.post(`http://localhost:3001/api/hospitalupload/${appointmentId}`, formData);
+        const response = await axios.post(`https://prowellness-liart.vercel.app/api/hospitalupload/${appointmentId}`, formData);
         alert(response.data.message);
         fetchTodayAppointments();
         

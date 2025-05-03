@@ -13,7 +13,7 @@ const ManageHospitals = () => {
   useEffect(() => {
     const fetchHospitals = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/admingethospitals`, {
+        const response = await axios.get(`https://prowellness-liart.vercel.app/api/admingethospitals`, {
           params: {
             page: currentPage,
             limit: hospitalsPerPage,
@@ -33,7 +33,7 @@ const ManageHospitals = () => {
   // Delete hospital by id (also updates the database)
   const handleDelete = async (hospitalId) => {
     try {
-      await axios.post(`http://localhost:3001/api/admindeletehospital/${hospitalId}`); // Delete hospital from database
+      await axios.post(`https://prowellness-liart.vercel.app/api/admindeletehospital/${hospitalId}`); // Delete hospital from database
       const updatedHospitals = hospitals.filter((hospital) => hospital._id !== hospitalId); // Update state after deletion
       setHospitals(updatedHospitals);
     } catch (error) {

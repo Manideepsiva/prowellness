@@ -32,7 +32,7 @@ function Clienttest({ testName, setTestName, suggesions1, setSuggestion1, setErr
 
             if (value.trim() !== '') {
               try {
-                const response = await fetch('http://localhost:3001/api/Testsuggestions', {
+                const response = await fetch('https://prowellness-liart.vercel.app/api/Testsuggestions', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',

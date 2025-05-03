@@ -98,7 +98,7 @@ function Clientsearchorgans() {
             setError("Please Enter Diasgnostic Test name ");
         }
         else {
-            const response = await fetch('http://localhost:3001/api/Testcheck', {
+            const response = await fetch('https://prowellness-liart.vercel.app/api/Testcheck', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ function Clientsearchorgans() {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await fetch(`http://localhost:3001/api/getnamesbyorgans/${id}`, {
+            const response = await fetch(`https://prowellness-liart.vercel.app/api/getnamesbyorgans/${id}`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',

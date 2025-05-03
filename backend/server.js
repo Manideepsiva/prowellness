@@ -73,7 +73,7 @@ const SECRET_KEY = "life is so hectic";
 
 
 async function connectbase(){
-    await mongoose.connect('mongodb://127.0.0.1:27017/project-nexus-react');
+    await mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
 }
 
@@ -130,7 +130,7 @@ userRouter.post('/api/register',async(req,res)=>{
       expiresIn: "1h", // Token valid for 1 hour
     });
 
-    const verificationLink = `http://localhost:3001/verify-email?token=${verificationToken}`;
+    const verificationLink = `https://prowellness-liart.vercel.app/verify-email?token=${verificationToken}`;
     await sendVerificationEmail(usermail, verificationLink);
     res.status(200).json({ message: "Verification email sent" });
 

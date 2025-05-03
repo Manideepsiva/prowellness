@@ -66,7 +66,7 @@ function Appointmentpayment(){
    
     
         try {
-            const response = await fetch('http://localhost:3001/api/bookappointment', {
+            const response = await fetch('https://prowellness-liart.vercel.app/api/bookappointment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -9,7 +9,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/forgot-password",
+        "https://prowellness-liart.vercel.app/api/forgot-password",
         { usermail: email }
       );
       setMessage(response.data.message);

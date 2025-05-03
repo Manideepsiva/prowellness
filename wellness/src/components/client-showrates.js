@@ -51,7 +51,7 @@ function Clientshowrates() {
     useEffect(() => {
         const fetchdata = async () => {
 
-            const baseUrl = 'http://localhost:3001/api/getratesclient';
+            const baseUrl = 'https://prowellness-liart.vercel.app/api/getratesclient';
             const params = {
                 state: statevalue,
                 district: districtvalue,
@@ -107,7 +107,7 @@ function Clientshowrates() {
             setError("Please Enter Diasgnostic Test name ");
         }
         else {
-            const response = await fetch('http://localhost:3001/api/Testcheck', {
+            const response = await fetch('https://prowellness-liart.vercel.app/api/Testcheck', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
