@@ -78,10 +78,24 @@ const SECRET_KEY = "life is so hectic";
 
 
 async function connectbase(){
-    await mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
-
+  try{
+    const conn = await mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+  } catch(error){
+    console.log(error);
+  }
 }
 
+
+mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/project-nexus-react?retryWrites=true&w=majority&appName=Cluster0', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log('✅ Connected to MongoDB Atlas');
+})
+.catch((err) => {
+  console.error('❌ MongoDB connection error:', err);
+});
 async function gettest(){
     const doc = await testnames.findOne({ id: 1 }); 
    console.log(doc);
@@ -91,7 +105,7 @@ async function gettest(){
 
 }
 
-connectbase().catch((error)=> console.log(error));
+
 gettest();
 
 const authroute = (req,res,next)=>{
@@ -1520,6 +1534,7 @@ app.use((req, res, next) => {
 
 app.listen(3001,()=>{
     console.log("backend server running at 3001");
+  
 })
 
 
