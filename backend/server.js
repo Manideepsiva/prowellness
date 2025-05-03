@@ -26,6 +26,8 @@ const nodemailer = require("nodemailer");
 const userRouter = express.Router();
 const hospitalRouter = express.Router();
 const adminRouter = express.Router();
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 let typestest;
 
 
@@ -58,15 +60,25 @@ async function sendVerificationEmail(usermail,verificationLink) {
 
 }
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-     
-      cb(null, file.originalname); 
-    },
-  });
+
+cloudinary.config({
+  cloud_name: 'dlveiau84',        // 🔁 Replace with your Cloudinary cloud name
+  api_key: '437289422847857',              // 🔁 Replace with your Cloudinary API key
+  api_secret: '7-FmxaAb1I5ZZ6c2VaWFjGmD5tE',        // 🔁 Replace with your Cloudinary API secret
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'documents',
+    resource_type: 'raw', // Required for PDFs
+    format: async (req, file) => 'pdf', // forces PDF extension
+    public_id: (req, file) => `${req.params.id}-${Date.now()}`
+  },
+});
+
+
+
   // Initialize multer with storage options
   const upload = multer({ storage });
 
@@ -1180,31 +1192,42 @@ hospitalRouter.post("/api/hospitalupdatepatientstatus/:id",async(req,res)=>{
   }
 })
 
-hospitalRouter.post("/api/hospitalupload/:id",upload.single('file'),async(req,res)=>{
+
+
+hospitalRouter.post("/api/hospitalupload/:id", upload.single('file'), async (req, res) => {
   try {
-      console.log("Request received to upload file");
-      const appointmentId = req.params.id; // Get the appointment ID from the URL
-      const file = req.file; // The uploaded file
+    console.log("Request received to upload file");
+    const appointmentId = req.params.id;
+    const file = req.file;
 
-      if (!file) {
-          return res.status(400).json({ message: 'No file uploaded' });
-      }
+    if (!file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
 
-     
-      await Appointment.findByIdAndUpdate(appointmentId, {
-          documentPath: file.path,
-          patientstatus: 3 
-        
-      });
+    // Upload PDF to Cloudinary
+    const result = await cloudinary.uploader.upload(file.path, {
+      resource_type: "raw",
+      folder: "documents"
+    });
 
-      console.log("Success in upload");
-      return res.status(200).json({ message: 'File uploaded successfully', filePath: file.path });
+    // Delete local temp file
+    fs.unlinkSync(file.path);
+
+    // Update DB with Cloudinary URL
+    await Appointment.findByIdAndUpdate(appointmentId, {
+      documentPath: result.secure_url,
+      patientstatus: 3
+    });
+
+    console.log("Success in upload to Cloudinary");
+    return res.status(200).json({ message: 'File uploaded successfully', filePath: result.secure_url });
+
   } catch (error) {
-      console.error('File upload error:', error);
-      return res.status(500).json({ message: 'File upload failed', error: error.message });
+    console.error('File upload error:', error);
+    return res.status(500).json({ message: 'File upload failed', error: error.message });
   }
+});
 
-})
 
 
 hospitalRouter.get("/api/hospitalcompletedappointments",async (req,res)=>{
@@ -1223,49 +1246,51 @@ hospitalRouter.get("/api/hospitalcompletedappointments",async (req,res)=>{
 
 hospitalRouter.post("/api/hospitaleditupload/:id", upload.single('file'), async (req, res) => {
   try {
-      console.log("reve to reupload");
-      const appointmentId = req.params.id; // Get the appointment ID from the URL
-      const file = req.file; // The new uploaded file
-  
-      if (!file) {
-        return res.status(400).json({ message: 'No file uploaded' });
-      }
-  
-      // Find the existing appointment
-      const appointment = await Appointment.findById(appointmentId);
-  
-      if (!appointment) {
-        return res.status(404).json({ message: 'Appointment not found' });
-      }
-  
-      // If there is an existing document, delete the old one
-      if (appointment.documentPath) {
-        const oldFilePath = path.join(__dirname, appointment.documentPath);
-        if (fs.existsSync(oldFilePath)) {
-          fs.unlinkSync(oldFilePath); // Delete the old file
-        }
-      }
-  
-      // Create a unique filename by appending a UUID or timestamp to the original file name
-      const uniqueFilename = `${uuidv4()}-${file.originalname}`; // Use UUID for unique filenames
-  
-      // Define the path where the new file will be saved
-      const newFilePath = path.join('uploads', uniqueFilename);
-  
-      // Move the file to the new path with the unique name
-      fs.renameSync(file.path, newFilePath);
-  
-      // Update the appointment with the new file path
-      appointment.documentPath = newFilePath;
-    
-      await appointment.save();
-  
-      res.status(200).json({ message: 'File replaced successfully', filePath: newFilePath });
-    } catch (error) {
-      console.error('File upload error:', error);
-      res.status(500).json({ message: 'File upload failed', error: error.message });
+    console.log("Request received to reupload file");
+
+    const appointmentId = req.params.id;
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({ message: 'No file uploaded' });
     }
+
+    const appointment = await Appointment.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+
+    // Delete old file from Cloudinary if it exists
+    if (appointment.documentPath) {
+      const oldUrl = appointment.documentPath;
+      const publicId = oldUrl.split('/').pop().split('.')[0];
+      try {
+        await cloudinary.uploader.destroy(`documents/${publicId}`, { resource_type: 'raw' });
+      } catch (err) {
+        console.warn("Failed to delete old Cloudinary file:", err.message);
+      }
+    }
+
+    // Upload new file
+    const result = await cloudinary.uploader.upload(file.path, {
+      resource_type: "raw",
+      folder: "documents"
+    });
+
+    fs.unlinkSync(file.path);
+
+    // Save new file URL
+    appointment.documentPath = result.secure_url;
+    await appointment.save();
+
+    res.status(200).json({ message: 'File replaced successfully', filePath: result.secure_url });
+
+  } catch (error) {
+    console.error('File upload error:', error);
+    res.status(500).json({ message: 'File upload failed', error: error.message });
+  }
 });
+
 
 
 

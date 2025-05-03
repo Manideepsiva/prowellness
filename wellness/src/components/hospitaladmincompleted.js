@@ -71,7 +71,7 @@ const CompletedAppointments = () => {
 
   const renderDocument = (documentPath) => {
     return (
-      <a href={`https://prowellness-eight.vercel.app/${documentPath}`} target="_blank" rel="noopener noreferrer">
+      <a href={`${documentPath}`} target="_blank" rel="noopener noreferrer">
         View Document
       </a>
     );
