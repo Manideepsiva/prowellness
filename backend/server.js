@@ -1207,7 +1207,8 @@ hospitalRouter.post("/api/hospitalupload/:id", upload.single('file'), async (req
     // Upload PDF to Cloudinary
     const result = await cloudinary.uploader.upload(file.path, {
       resource_type: "raw",
-      folder: "documents"
+      folder: "documents",
+      type: 'upload'
     });
 
     // Delete local temp file
@@ -1274,7 +1275,8 @@ hospitalRouter.post("/api/hospitaleditupload/:id", upload.single('file'), async 
     // Upload new file
     const result = await cloudinary.uploader.upload(file.path, {
       resource_type: "raw",
-      folder: "documents"
+      folder: "documents",
+      type: 'upload'
     });
 
     fs.unlinkSync(file.path);
