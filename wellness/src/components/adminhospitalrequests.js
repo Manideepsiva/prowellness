@@ -135,28 +135,28 @@ const ManageHospitalRequests = () => {
                     <ul style={{ listStyleType: 'none', paddingLeft: '0' }}>
                       {request.document1 && (
                         <li style={{ marginBottom: '5px' }}>
-                          <a href={`https://prowellness-eight.vercel.app/${request.document1}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
+                          <a href={`${request.document1}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
                             Business License
                           </a>
                         </li>
                       )}
                       {request.document2 && (
                         <li style={{ marginBottom: '5px' }}>
-                          <a href={`https://prowellness-eight.vercel.app/${request.document2}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
+                          <a href={`${request.document2}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
                             NABH Accreditation
                           </a>
                         </li>
                       )}
                       {request.document3 && (
                         <li style={{ marginBottom: '5px' }}>
-                          <a href={`https://prowellness-eight.vercel.app/${request.document3}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
+                          <a href={`${request.document3}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
                             ISO Certificate
                           </a>
                         </li>
                       )}
                       {request.document4 && (
                         <li style={{ marginBottom: '5px' }}>
-                          <a href={`https://prowellness-eight.vercel.app/${request.document4}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
+                          <a href={`${request.document4}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#007bff' }}>
                             Laboratory License
                           </a>
                         </li>

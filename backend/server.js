@@ -818,57 +818,56 @@ userRouter.post("/api/changepassword/:id",async(req,res)=>{
 
 
 
-hospitalRouter.post("/api/hospitalregistration", upload.fields([
-  { name: 'document1', maxCount: 1 },
-  { name: 'document2', maxCount: 1 },
-  { name: 'document3', maxCount: 1 },
-  { name: 'document4', maxCount: 1 }
-]), async (req, res) => {
-  try {
-    const { hospitalName, phone, email, address, state, district } = req.body;
+hospitalRouter.post(
+  '/api/hospitalregistration',
+  upload.fields([
+    { name: 'document1', maxCount: 1 },
+    { name: 'document2', maxCount: 1 },
+    { name: 'document3', maxCount: 1 },
+    { name: 'document4', maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const { hospitalName, phone, email, address, state, district } = req.body;
 
-    const documentPaths = {};
+      const documentPaths = {};
 
-    // Rename files after upload
-    for (let i = 1; i <= 4; i++) {
-      const fieldName = `document${i}`;
-      if (req.files[fieldName]) {
-        const oldPath = req.files[fieldName][0].path; // Original path
-        const ext = path.extname(req.files[fieldName][0].originalname); // Get file extension
-        const newFileName = `${uuidv4()}${ext}`; // Generate new filename
-        const newPath = path.join('uploads', newFileName); // New path with UUID
-
-        // Rename the file
-        fs.rename(oldPath, newPath, (err) => {
-          if (err) {
-            console.error(`Error renaming file: ${err}`);
-          }
-        });
-
-        documentPaths[fieldName] = newPath; // Store new path for saving in DB
+      for (let i = 1; i <= 4; i++) {
+        const fieldName = `document${i}`;
+        if (req.files[fieldName]) {
+          const cloudinaryUrl = req.files[fieldName][0].path; // This is the public URL
+          documentPaths[fieldName] = cloudinaryUrl;
+        }
       }
+
+      const newRequest = new HospitalRequest({
+        hospitalName,
+        phone,
+        email,
+        address,
+        state,
+        district,
+        document1: documentPaths.document1,
+        document2: documentPaths.document2,
+        document3: documentPaths.document3,
+        document4: documentPaths.document4,
+      });
+
+      await newRequest.save();
+
+      res.status(201).json({
+        message: 'Hospital request created successfully',
+        request: newRequest,
+      });
+    } catch (error) {
+      console.error('Error creating hospital request:', error);
+      res.status(500).json({
+        message: 'Server error',
+        error: error.message,
+      });
     }
-
-    const newRequest = new HospitalRequest({
-      hospitalName,
-      phone,
-      email,
-      address,
-      state,
-      district,
-      document1: documentPaths.document1,
-      document2: documentPaths.document2,
-      document3: documentPaths.document3,
-      document4: documentPaths.document4,
-    });
-
-    await newRequest.save();
-    res.status(201).json({ message: 'Hospital request created successfully', request: newRequest });
-  } catch (error) {
-    console.error('Error creating hospital request:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
   }
-});
+);
 
 hospitalRouter.post("/api/hospitallogin",async (req,res)=>{
   const {usermail,password} = req.body;
