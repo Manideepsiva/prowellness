@@ -1252,35 +1252,34 @@ hospitalRouter.post("/api/hospitaleditupload/:id", upload.single('file'), async 
     // Delete old file from Cloudinary if it exists
     if (appointment.documentPath) {
       const oldUrl = appointment.documentPath;
-      const publicId = oldUrl.split('/').pop().split('.')[0];
+      const publicId = oldUrl
+        .split('/')
+        .slice(-1)[0]
+        .split('.')[0];
+
       try {
         await cloudinary.uploader.destroy(`documents/${publicId}`, { resource_type: 'raw' });
+        console.log("Old file deleted from Cloudinary.");
       } catch (err) {
         console.warn("Failed to delete old Cloudinary file:", err.message);
       }
     }
 
-    // Upload new file
-    const result = await cloudinary.uploader.upload(file.path, {
-      resource_type: "raw",
-      folder: "documents",
-      type: 'upload'
-    });
-
-    fs.unlinkSync(file.path);
-
-    // Save new file URL
-    appointment.documentPath = result.secure_url;
+    // ✅ New file already uploaded by multer & CloudinaryStorage
+    // ✅ Use the public URL directly from req.file.path
+    appointment.documentPath = file.path;
     await appointment.save();
 
-    res.status(200).json({ message: 'File replaced successfully', filePath: result.secure_url });
+    res.status(200).json({
+      message: 'File replaced successfully',
+      filePath: file.path
+    });
 
   } catch (error) {
     console.error('File upload error:', error);
     res.status(500).json({ message: 'File upload failed', error: error.message });
   }
 });
-
 
 
 
