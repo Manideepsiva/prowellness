@@ -1193,35 +1193,23 @@ hospitalRouter.post("/api/hospitalupdatepatientstatus/:id",async(req,res)=>{
 })
 
 
-
 hospitalRouter.post("/api/hospitalupload/:id", upload.single('file'), async (req, res) => {
   try {
-    console.log("Request received to upload file");
     const appointmentId = req.params.id;
-    const file = req.file;
 
-    if (!file) {
+    if (!req.file || !req.file.path) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    // Upload PDF to Cloudinary
-    const result = await cloudinary.uploader.upload(file.path, {
-      resource_type: "raw",
-      folder: "documents",
-      type: 'upload'
-    });
+    const fileUrl = req.file.path; // ✅ this is the full Cloudinary URL
 
-    // Delete local temp file
-    fs.unlinkSync(file.path);
-
-    // Update DB with Cloudinary URL
+    // Save full URL in DB
     await Appointment.findByIdAndUpdate(appointmentId, {
-      documentPath: result.secure_url,
-      patientstatus: 3
+      documentPath: fileUrl,
+      patientstatus: 3,
     });
 
-    console.log("Success in upload to Cloudinary");
-    return res.status(200).json({ message: 'File uploaded successfully', filePath: result.secure_url });
+    return res.status(200).json({ message: 'File uploaded successfully', filePath: fileUrl });
 
   } catch (error) {
     console.error('File upload error:', error);
