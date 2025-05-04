@@ -73,7 +73,8 @@ const storage = new CloudinaryStorage({
     folder: 'documents',
     resource_type: 'raw', // Required for PDFs
     format: async (req, file) => 'pdf', // forces PDF extension
-    public_id: (req, file) => `${req.params.id}-${Date.now()}`
+    public_id: (req, file) => `${req.params.id}-${Date.now()}`,
+    access_mode: 'public'
   },
 });
 
