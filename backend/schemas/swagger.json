@@ -181,25 +181,7 @@
     }
   },
   "paths": {
-    "/namaste": {
-      "get": {
-        "summary": "Test endpoint",
-        "description": "Returns a simple greeting message to test the API.",
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": "hello there"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+   
     "/api/register": {
       "post": {
         "summary": "Register a new user",

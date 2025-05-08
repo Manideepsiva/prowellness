@@ -1,2 +1,4 @@
 wellness/node_modules/
 node_modules/
+backend/Dockerfile.unknown
+backend/.dockerignore
