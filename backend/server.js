@@ -35,11 +35,39 @@ const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'schemas
 
 
 var app = express();
+
+// Swagger config
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'ProWellness API',
+      version: '1.0.0',
+      description: 'API documentation for ProWellness',
+    },
+    servers: [
+      { url: 'https://prowellness-eight.vercel.app' },
+      { url: 'http://localhost:3001' }
+    ],
+  },
+  apis: ['./server.js', './routes/*.js'] // adjust paths as needed
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+// Optional: use a custom CSS for Swagger UI
+const swaggerUiOptions = {
+  customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.18.3/swagger-ui.css'
+};
+
+// Serve Swagger UI at /api-docs
+
 app.use(cors({
   origin: 'https://prowellness-9gj1.vercel.app'
 })); 
 app.use(express.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, swaggerUiOptions));
+
 
 async function sendVerificationEmail(usermail,verificationLink) {
   const transporter = nodemailer.createTransport({
