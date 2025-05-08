@@ -6,10 +6,7 @@
     "description": "API for the ProWellness healthcare platform, providing endpoints for user management, hospital operations, and admin functionalities."
   },
   "servers": [
-    {
-      "url": "http://localhost:3001",
-      "description": "Local development server"
-    },
+    
     {
       "url": "https://prowellness-eight.vercel.app",
       "description": "Production server"
