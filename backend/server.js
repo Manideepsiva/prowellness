@@ -41,7 +41,20 @@ app.use(cors({
   origin: 'https://prowellness-9gj1.vercel.app'
 })); 
 app.use(express.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+
+
+app.get('/swagger.json', (req, res) => {
+  const swaggerPath = path.join(__dirname, 'schemas', 'swagger.json');
+  const swaggerJSON = fs.readFileSync(swaggerPath, 'utf8');
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerJSON);
+});
+
+// Serve Swagger UI HTML
+app.get('/api-docs', (req, res) => {
+  res.sendFile(path.join(__dirname, 'swagger.html'));
+});
 
 async function sendVerificationEmail(usermail,verificationLink) {
   const transporter = nodemailer.createTransport({
