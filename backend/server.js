@@ -30,7 +30,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
 let typestest;
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require("./schemas/swagger.json");
+const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'schemas', 'swagger.json'), 'utf8'));
 
 
 
