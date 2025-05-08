@@ -144,7 +144,7 @@ const authroute = (req,res,next)=>{
 }
 
 app.get("/namaste",(req,res)=>{
-  res.json("hello hello");
+  res.json("hello adfgghjk");
 })
 
 
