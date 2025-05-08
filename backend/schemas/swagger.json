@@ -1,0 +1,1213 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ProWellness API",
+    "version": "1.0.0",
+    "description": "API for the ProWellness healthcare platform, providing endpoints for user management, hospital operations, and admin functionalities."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://prowellness-9gj1.vercel.app",
+      "description": "Production server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "UserRegistration": {
+        "type": "object",
+        "properties": {
+          "usermail": { "type": "string", "example": "user@example.com" },
+          "password": { "type": "string", "example": "password123" },
+          "username": { "type": "string", "example": "JohnDoe" },
+          "age": { "type": "integer", "example": 30 }
+        },
+        "required": ["usermail", "password", "username", "age"]
+      },
+      "UserLogin": {
+        "type": "object",
+        "properties": {
+          "usermail": { "type": "string", "example": "hospital@example.com" },
+          "password": { "type": "string", "example": "password123" }
+        },
+        "required": ["usermail", "password"]
+      },
+      "HospitalRegistration": {
+        "type": "object",
+        "properties": {
+          "hospitalName": { "type": "string", "example": "City Hospital" },
+          "phone": { "type": "string", "example": "1234567890" },
+          "email": { "type": "string", "example": "hospital@example.com" },
+          "address": { "type": "string", "example": "123 Main St" },
+          "state": { "type": "string", "example": "Andhra Pradesh" },
+          "district": { "type": "string", "example": "Guntur" }
+        },
+        "required": ["hospitalName", "phone", "email", "address", "state", "district"]
+      },
+      "BookAppointment": {
+        "type": "object",
+        "properties": {
+          "patientName": { "type": "string", "example": "Jane Doe" },
+          "testname": { "type": "string", "example": "Blood Test" },
+          "testprice": { "type": "number", "example": 500 },
+          "gender": { "type": "string", "example": "Female" },
+          "email": { "type": "string", "example": "jane@example.com" },
+          "phone": { "type": "string", "example": "9876543210" },
+          "area": { "type": "string", "example": "Downtown" },
+          "city": { "type": "string", "example": "Hyderabad" },
+          "state": { "type": "string", "example": "Telangana" },
+          "postalCode": { "type": "string", "example": "500001" },
+          "appointmentDate": { "type": "string", "example": "2025-06-01" },
+          "timeSlot": { "type": "string", "example": "10:00 AM" },
+          "additionalInfo": { "type": "string", "example": "N/A" },
+          "hospitalid": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+          "hospitalname": { "type": "string", "example": "City Hospital" },
+          "amount": { "type": "number", "example": 500 },
+          "paymentMethod": { "type": "string", "example": "Credit Card" },
+          "userid": { "type": "string", "example": "60d21b4667d0d8992e610c86" }
+        },
+        "required": ["patientName", "testname", "testprice", "gender", "email", "phone", "area", "city", "state", "postalCode", "appointmentDate", "timeSlot", "hospitalid", "hospitalname", "amount", "paymentMethod", "userid"]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "example": "60d21b4667d0d8992e610c86" },
+          "username": { "type": "string", "example": "JohnDoe" },
+          "usermail": { "type": "string", "example": "user@example.com" },
+          "age": { "type": "integer", "example": 30 }
+        }
+      },
+      "Hospital": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+          "nameOfHospital": { "type": "string", "example": "City Hospital" },
+          "email": { "type": "string", "example": "hospital@example.com" }
+        }
+      },
+      "Appointment": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "example": "60d21b4667d0d8992e610c87" },
+          "patientName": { "type": "string", "example": "Jane Doe" },
+          "testname": { "type": "string", "example": "Blood Test" },
+          "appointmentDate": { "type": "string", "example": "2025-06-01" },
+          "timeSlot": { "type": "string", "example": "10:00 AM" },
+          "phone": { "type": "string", "example": "9876543210" },
+          "email": { "type": "string", "example": "jane@example.com" },
+          "patientstatus": { "type": "integer", "example": 1 },
+          "cancelled": { "type": "integer", "example": 0 },
+          "documentPath": { "type": "string", "example": "https://cloudinary.com/doc.pdf" }
+        }
+      },
+      "HospitalRequest": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "example": "60d21b4667d0d8992e610c88" },
+          "hospitalName": { "type": "string", "example": "City Hospital" },
+          "phone": { "type": "string", "example": "1234567890" },
+          "email": { "type": "string", "example": "hospital@example.com" },
+          "address": { "type": "string", "example": "123 Main St" },
+          "state": { "type": "string", "example": "Andhra Pradesh" },
+          "district": { "type": "string", "example": "Guntur" },
+          "document1": { "type": "string", "example": "https://cloudinary.com/doc1.pdf" },
+          "document2": { "type": "string", "example": "https://cloudinary.com/doc2.pdf" },
+          "document3": { "type": "string", "example": "https://cloudinary.com/doc3.pdf" },
+          "document4": { "type": "string", "example": "https://cloudinary.com/doc4.pdf" }
+        }
+      },
+      "AcceptHospitalRequest": {
+        "type": "object",
+        "properties": {
+          "state": { "type": "string", "example": "Andhra Pradesh" },
+          "district": { "type": "string", "example": "Guntur" },
+          "phone": { "type": "string", "example": "1234567890" },
+          "hospitalName": { "type": "string", "example": "City Hospital" },
+          "address": { "type": "string", "example": "123 Main St" },
+          "email": { "type": "string", "example": "hospital@example.com" },
+          "hosreqid": { "type": "string", "example": "60d21b4667d0d8992e610c88" }
+        },
+        "required": ["state", "district", "phone", "hospitalName", "address", "email", "hosreqid"]
+      },
+      "RejectHospitalRequest": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "60d21b4667d0d8992e610c88" }
+        },
+        "required": ["id"]
+      },
+      "HospitalDashboard": {
+        "type": "object",
+        "properties": {
+          "hospitalName": { "type": "string", "example": "City Hospital" },
+          "patientCount": { "type": "integer", "example": 100 },
+          "diagnosticCount": { "type": "integer", "example": 10 },
+          "revenueData": { "type": "array", "items": { "type": "number" }, "example": [5000, 6000, 5500, 7000, 6500, 8000] },
+          "revenueLabels": { "type": "array", "items": { "type": "string" }, "example": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"] },
+          "diagnosticTestData": { "type": "array", "items": { "type": "number" }, "example": [40, 20, 15, 10, 5, 10] },
+          "diagnosticTestLabels": { "type": "array", "items": { "type": "string" }, "example": ["Test A", "Test B", "Test C", "Test D", "Test E", "Test F"] },
+          "bookingData": { "type": "array", "items": { "type": "number" }, "example": [200, 300, 250, 400] },
+          "bookingLabels": { "type": "array", "items": { "type": "string" }, "example": ["Month 1", "Month 2", "Month 3", "Month 4"] }
+        }
+      },
+      "TestUpdate": {
+        "type": "object",
+        "properties": {
+          "selectedTests": {
+            "type": "object",
+            "additionalProperties": { "type": "number" },
+            "example": { "Blood Test": 500, "X-Ray": 1000 }
+          }
+        },
+        "required": ["selectedTests"]
+      },
+      "CancelAppointment": {
+        "type": "object",
+        "properties": {
+          "appointmentId": { "type": "string", "example": "60d21b4667d0d8992e610c87" }
+        },
+        "required": ["appointmentId"]
+      }
+    }
+  },
+  "paths": {
+    "/namaste": {
+      "get": {
+        "summary": "Test endpoint",
+        "description": "Returns a simple greeting message to test the API.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "hello there"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/register": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "Registers a new user and sends a verification email.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserRegistration" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification email sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Verification email sent" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "User already exists" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/verify-email": {
+      "get": {
+        "summary": "Verify email",
+        "description": "Verifies the user's email using a token and completes registration.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "JWT token for email verification"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email verified successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Email verified successfully. Registration complete." }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid or missing token" },
+          "404": { "description": "User not found or already verified" }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "summary": "User login",
+        "description": "Authenticates a user and returns a JWT token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserLogin" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
+                  }
+                }
+              }
+            }
+          },
+          "300": { "description": "User does not exist" },
+          "400": { "description": "Invalid credentials" },
+          "429": { "description": "Too many login attempts" }
+        }
+      }
+    },
+    "/api/hospitallogin": {
+      "post": {
+        "summary": "Hospital login",
+        "description": "Authenticates a hospital user and returns a JWT token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserLogin" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
+                  }
+                }
+              }
+            }
+          },
+          "300": { "description": "Hospital does not exist" },
+          "400": { "description": "Invalid credentials" }
+        }
+      }
+    },
+    "/api/bookappointment": {
+      "post": {
+        "summary": "Book an appointment",
+        "description": "Books a medical appointment for a user.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BookAppointment" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Appointment booked successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "appointment": { "type": "object" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Invalid token" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/getratesclient": {
+      "get": {
+        "summary": "Get hospital rates",
+        "description": "Fetches hospital rates for a specific test in a given state and district.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "district",
+            "required": true,
+            "schema": { "type": "string", "example": "Guntur" }
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "required": true,
+            "schema": { "type": "string", "example": "Andhra Pradesh" }
+          },
+          {
+            "in": "query",
+            "name": "test",
+            "required": true,
+            "schema": { "type": "string", "example": "blood test" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of hospitals with rates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "nameOfHospital": { "type": "string" },
+                      "mitraContactNumber": { "type": "string" },
+                      "address": { "type": "string" },
+                      "price": { "type": "number" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitalregistration": {
+      "post": {
+        "summary": "Register a hospital",
+        "description": "Submits a hospital registration request with documents.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hospitalName": { "type": "string", "example": "City Hospital" },
+                  "phone": { "type": "string", "example": "1234567890" },
+                  "email": { "type": "string", "example": "hospital@example.com" },
+                  "address": { "type": "string", "example": "123 Main St" },
+                  "state": { "type": "string", "example": "Andhra Pradesh" },
+                  "district": { "type": "string", "example": "Guntur" },
+                  "document1": { "type": "string", "format": "binary" },
+                  "document2": { "type": "string", "format": "binary" },
+                  "document3": { "type": "string", "format": "binary" },
+                  "document4": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Hospital request created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Hospital request created successfully" },
+                    "request": { "type": "object" }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/acceptHospitalRequest": {
+      "post": {
+        "summary": "Accept hospital request",
+        "description": "Accepts a hospital registration request and creates a new hospital entry.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AcceptHospitalRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Hospital created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Hospital created successfully" },
+                    "hospital": { "$ref": "#/components/schemas/Hospital" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/rejectHospitalRequest": {
+      "post": {
+        "summary": "Reject hospital request",
+        "description": "Rejects a hospital registration request by its ID.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RejectHospitalRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Hospital request rejected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "rejected successfully" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/getnamesbyorgans/{id}": {
+      "get": {
+        "summary": "Get test names by organ",
+        "description": "Fetches a list of test names associated with a specific organ ID.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "example": "organ1" },
+            "description": "Organ ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of test names",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "example": ["Blood Test", "Liver Function Test"]
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospital-dashboard": {
+      "get": {
+        "summary": "Get hospital dashboard data",
+        "description": "Fetches dashboard data for a hospital, including patient count, revenue, and diagnostic test statistics.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "hospitalId",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+            "description": "Hospital ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hospital dashboard data",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HospitalDashboard" }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitalUpcoming": {
+      "get": {
+        "summary": "Get upcoming appointments",
+        "description": "Fetches upcoming appointments for a hospital starting from tomorrow.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "hospitalId",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+            "description": "Hospital ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of upcoming appointments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Appointment" }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitalcancel": {
+      "post": {
+        "summary": "Cancel a hospital appointment",
+        "description": "Cancels an appointment by its ID, marking it as cancelled by the hospital.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CancelAppointment" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Appointment cancelled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Appointment cancelled successfully" },
+                    "updatedAppointment": { "$ref": "#/components/schemas/Appointment" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Appointment not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitalseeavilable": {
+      "get": {
+        "summary": "Get available tests",
+        "description": "Fetches a list of available tests and their prices for a hospital.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "hospitalId",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+            "description": "Hospital ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of available tests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": { "type": "number" },
+                  "example": { "BLOOD TEST": 500, "X-RAY": 1000 }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Hospital not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitalavailableTests": {
+      "get": {
+        "summary": "Get available tests (alias)",
+        "description": "Fetches a list of available tests and their prices for a hospital (same as /hospitalseeavilable).",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "hospitalId",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+            "description": "Hospital ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of available tests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": { "type": "number" },
+                  "example": { "BLOOD TEST": 500, "X-RAY": 1000 }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Hospital not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitalupdatetest": {
+      "post": {
+        "summary": "Update hospital tests",
+        "description": "Updates the list of tests and their prices for a hospital.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "hospitalid",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+            "description": "Hospital ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TestUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tests updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Tests updated successfully" },
+                    "data": { "$ref": "#/components/schemas/Hospital" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Hospital not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitaltodayappointments": {
+      "get": {
+        "summary": "Get today's appointments",
+        "description": "Fetches appointments for a hospital scheduled for today, excluding completed or cancelled ones.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "hospitalId",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+            "description": "Hospital ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of today's appointments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Appointment" }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitalupdatepatientstatus/{id}": {
+      "post": {
+        "summary": "Update patient status",
+        "description": "Updates the patient status of an appointment to in-progress (status 2).",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c87" },
+            "description": "Appointment ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Patient status updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Patient status updated successfully" },
+                    "updatedAppointment": { "$ref": "#/components/schemas/Appointment" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Appointment not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitalupload/{id}": {
+      "post": {
+        "summary": "Upload appointment document",
+        "description": "Uploads a document for an appointment and marks it as completed (status 3).",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c87" },
+            "description": "Appointment ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "File uploaded successfully" },
+                    "filePath": { "type": "string", "example": "https://cloudinary.com/doc.pdf" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "No file uploaded" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitalcompletedappointments": {
+      "get": {
+        "summary": "Get completed appointments",
+        "description": "Fetches completed appointments for a hospital.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "hospitalId",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+            "description": "Hospital ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of completed appointments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Appointment" }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/hospitaleditupload/{id}": {
+      "post": {
+        "summary": "Replace appointment document",
+        "description": "Replaces an existing document for an appointment.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c87" },
+            "description": "Appointment ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File replaced successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "File replaced successfully" },
+                    "filePath": { "type": "string", "example": "https://cloudinary.com/doc.pdf" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "No file uploaded" },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Appointment not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/adminlogin": {
+      "post": {
+        "summary": "Admin login",
+        "description": "Authenticates an admin and returns a JWT token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserLogin" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Admin not found" },
+          "401": { "description": "Invalid password" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/admingetusers": {
+      "get": {
+        "summary": "Get all users",
+        "description": "Fetches a list of all users with their username, email, age, and ID.",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/User" }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/admindeleteuser/{id}": {
+      "post": {
+        "summary": "Delete a user",
+        "description": "Deletes a user by their ID.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c86" },
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "User deleted" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/admingethospitals": {
+      "get": {
+        "summary": "Get hospitals",
+        "description": "Fetches a paginated list of hospitals with optional search by name, email, or ID.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": { "type": "integer", "default": 1 },
+            "description": "Page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "integer", "default": 40 },
+            "description": "Number of hospitals per page"
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "schema": { "type": "string", "example": "City Hospital" },
+            "description": "Search term for hospital name, email, or ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of hospitals",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hospitals": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Hospital" }
+                    },
+                    "totalPages": { "type": "integer", "example": 5 },
+                    "currentPage": { "type": "integer", "example": 1 }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/admindeletehospital/{id}": {
+      "post": {
+        "summary": "Delete a hospital",
+        "description": "Deletes a hospital by its ID.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c85" },
+            "description": "Hospital ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hospital deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "User deleted" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/adminmanageappointments": {
+      "get": {
+        "summary": "Manage user appointments",
+        "description": "Fetches appointments for a user based on their email and status (1: pending, 2: in-progress, 3: completed, or cancelled).",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "schema": { "type": "string", "example": "user@example.com" },
+            "description": "User email"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": { "type": "integer", "enum": [1, 2, 3] },
+            "description": "Appointment status (1: pending, 2: in-progress, 3: completed, or omit for cancelled)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of appointments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Appointment" }
+                }
+              }
+            }
+          },
+          "400": { "description": "Email is required" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/admincancelappointment": {
+      "get": {
+        "summary": "Cancel an appointment",
+        "description": "Cancels an appointment by its ID, marking it as cancelled by admin.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "appointmentId",
+            "required": true,
+            "schema": { "type": "string", "example": "60d21b4667d0d8992e610c87" },
+            "description": "Appointment ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Appointment cancelled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "example": "Appointment cancelled successfully" },
+                    "updatedAppointment": { "$ref": "#/components/schemas/Appointment" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Appointment not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/api/adminhospitalrequests": {
+      "get": {
+        "summary": "Get hospital requests",
+        "description": "Fetches all pending hospital registration requests.",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "List of hospital requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/HospitalRequest" }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Server error" }
+        }
+      }
+    }}}

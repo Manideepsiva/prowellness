@@ -5,41 +5,34 @@ var  session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bcrypt = require("bcrypt");
 const fs = require('fs');
-const user = require('./schemas/userschema');
+const user = require('../schemas/userschema');
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const path = require('path');
-const testnames = require("./schemas/testschema")
-const hospmodel = require("./schemas/hospitalschema");
-const Appointment = require('./schemas/clientappointmentschema');
-const Transaction = require('./schemas/clientTransaction');
+const testnames = require("../schemas/testschema")
+const hospmodel = require("../schemas/hospitalschema");
+const Appointment = require('../schemas/clientappointmentschema');
+const Transaction = require('../schemas/clientTransaction');
 const Grid = require('gridfs-stream');
 const multer = require('multer');
-const searchbyorgans = require("./schemas/searchbyorgans")
+
 const { v4: uuidv4 } = require('uuid');
 const moment = require('moment');
-const Admin = require("./schemas/adminSchema");
+const Admin = require("../schemas/adminSchema");
 const GridFsStorage = require('multer-gridfs-storage').GridFsStorage;
-const HospitalRequest = require("./schemas/Hospitalrequestschema");
-const TemporaryUser = require("./schemas/TemporarySchema"); 
+const HospitalRequest = require("../schemas/Hospitalrequestschema");
+const TemporaryUser = require("../schemas/TemporarySchema"); 
 const nodemailer = require("nodemailer");
 const userRouter = express.Router();
 const hospitalRouter = express.Router();
 const adminRouter = express.Router();
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('cloudinary').v2;
 let typestest;
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require("./schemas/swagger.json");
 
 
 
 var app = express();
-app.use(cors({
-  origin: 'https://prowellness-9gj1.vercel.app'
-})); 
+app.use(cors());    
 app.use(express.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 async function sendVerificationEmail(usermail,verificationLink) {
   const transporter = nodemailer.createTransport({
@@ -62,26 +55,15 @@ async function sendVerificationEmail(usermail,verificationLink) {
 
 }
 
-
-cloudinary.config({
-  cloud_name: 'dlveiau84',        // 🔁 Replace with your Cloudinary cloud name
-  api_key: '437289422847857',              // 🔁 Replace with your Cloudinary API key
-  api_secret: '7-FmxaAb1I5ZZ6c2VaWFjGmD5tE',        // 🔁 Replace with your Cloudinary API secret
-});
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'documents',
-    resource_type: 'raw', // Required for PDFs
-    format: async (req, file) => 'pdf', // forces PDF extension
-    public_id: (req, file) => `${req.params.id}-${Date.now()}`,
-    access_mode: 'public'
-  },
-});
-
-
-
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+     
+      cb(null, file.originalname); 
+    },
+  });
   // Initialize multer with storage options
   const upload = multer({ storage });
 
@@ -90,33 +72,8 @@ const storage = new CloudinaryStorage({
 const SECRET_KEY = "life is so hectic";
 
 
-const startServer = async () => {
-  try {
 
 
-
-
- await mongoose.connect('mongodb+srv://msiva0100:Ndp9X2cSbU4S3oO4@cluster0.mjpbl4e.mongodb.net/project-nexus-react?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 20000, 
-});
-
-console.log('✅ Connected to MongoDB');
-
-
-
-async function gettest(){
-    const doc = await testnames.findOne({ id: 1 }); 
-   console.log(doc);
-   typestest = doc.tests; 
-   
-
-
-}
-
-
-gettest();
 
 const authroute = (req,res,next)=>{
     const authheader = req.headers['authorization'];
@@ -127,10 +84,6 @@ const authroute = (req,res,next)=>{
         next();
     })
 }
-
-app.get("/namaste",(req,res)=>{
-  res.json("hello there");
-})
 
 
 userRouter.post('/api/register',async(req,res)=>{
@@ -163,7 +116,7 @@ userRouter.post('/api/register',async(req,res)=>{
       expiresIn: "1h", // Token valid for 1 hour
     });
 
-    const verificationLink = `https://prowellness-eight.vercel.app/verify-email?token=${verificationToken}`;
+    const verificationLink = `http://localhost:3001/verify-email?token=${verificationToken}`;
     await sendVerificationEmail(usermail, verificationLink);
     res.status(200).json({ message: "Verification email sent" });
 
@@ -820,56 +773,57 @@ userRouter.post("/api/changepassword/:id",async(req,res)=>{
 
 
 
-hospitalRouter.post(
-  '/api/hospitalregistration',
-  upload.fields([
-    { name: 'document1', maxCount: 1 },
-    { name: 'document2', maxCount: 1 },
-    { name: 'document3', maxCount: 1 },
-    { name: 'document4', maxCount: 1 },
-  ]),
-  async (req, res) => {
-    try {
-      const { hospitalName, phone, email, address, state, district } = req.body;
+hospitalRouter.post("/api/hospitalregistration", upload.fields([
+  { name: 'document1', maxCount: 1 },
+  { name: 'document2', maxCount: 1 },
+  { name: 'document3', maxCount: 1 },
+  { name: 'document4', maxCount: 1 }
+]), async (req, res) => {
+  try {
+    const { hospitalName, phone, email, address, state, district } = req.body;
 
-      const documentPaths = {};
+    const documentPaths = {};
 
-      for (let i = 1; i <= 4; i++) {
-        const fieldName = `document${i}`;
-        if (req.files[fieldName]) {
-          const cloudinaryUrl = req.files[fieldName][0].path; // This is the public URL
-          documentPaths[fieldName] = cloudinaryUrl;
-        }
+    // Rename files after upload
+    for (let i = 1; i <= 4; i++) {
+      const fieldName = `document${i}`;
+      if (req.files[fieldName]) {
+        const oldPath = req.files[fieldName][0].path; // Original path
+        const ext = path.extname(req.files[fieldName][0].originalname); // Get file extension
+        const newFileName = `${uuidv4()}${ext}`; // Generate new filename
+        const newPath = path.join('uploads', newFileName); // New path with UUID
+
+        // Rename the file
+        fs.rename(oldPath, newPath, (err) => {
+          if (err) {
+            console.error(`Error renaming file: ${err}`);
+          }
+        });
+
+        documentPaths[fieldName] = newPath; // Store new path for saving in DB
       }
-
-      const newRequest = new HospitalRequest({
-        hospitalName,
-        phone,
-        email,
-        address,
-        state,
-        district,
-        document1: documentPaths.document1,
-        document2: documentPaths.document2,
-        document3: documentPaths.document3,
-        document4: documentPaths.document4,
-      });
-
-      await newRequest.save();
-
-      res.status(201).json({
-        message: 'Hospital request created successfully',
-        request: newRequest,
-      });
-    } catch (error) {
-      console.error('Error creating hospital request:', error);
-      res.status(500).json({
-        message: 'Server error',
-        error: error.message,
-      });
     }
+
+    const newRequest = new HospitalRequest({
+      hospitalName,
+      phone,
+      email,
+      address,
+      state,
+      district,
+      document1: documentPaths.document1,
+      document2: documentPaths.document2,
+      document3: documentPaths.document3,
+      document4: documentPaths.document4,
+    });
+
+    await newRequest.save();
+    res.status(201).json({ message: 'Hospital request created successfully', request: newRequest });
+  } catch (error) {
+    console.error('Error creating hospital request:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
-);
+});
 
 hospitalRouter.post("/api/hospitallogin",async (req,res)=>{
   const {usermail,password} = req.body;
@@ -1194,31 +1148,31 @@ hospitalRouter.post("/api/hospitalupdatepatientstatus/:id",async(req,res)=>{
   }
 })
 
-
-hospitalRouter.post("/api/hospitalupload/:id", upload.single('file'), async (req, res) => {
+hospitalRouter.post("/api/hospitalupload/:id",upload.single('file'),async(req,res)=>{
   try {
-    const appointmentId = req.params.id;
+      console.log("Request received to upload file");
+      const appointmentId = req.params.id; // Get the appointment ID from the URL
+      const file = req.file; // The uploaded file
 
-    if (!req.file || !req.file.path) {
-      return res.status(400).json({ message: 'No file uploaded' });
-    }
+      if (!file) {
+          return res.status(400).json({ message: 'No file uploaded' });
+      }
 
-    const fileUrl = req.file.path; // ✅ this is the full Cloudinary URL
+     
+      await Appointment.findByIdAndUpdate(appointmentId, {
+          documentPath: file.path,
+          patientstatus: 3 
+        
+      });
 
-    // Save full URL in DB
-    await Appointment.findByIdAndUpdate(appointmentId, {
-      documentPath: fileUrl,
-      patientstatus: 3,
-    });
-
-    return res.status(200).json({ message: 'File uploaded successfully', filePath: fileUrl });
-
+      console.log("Success in upload");
+      return res.status(200).json({ message: 'File uploaded successfully', filePath: file.path });
   } catch (error) {
-    console.error('File upload error:', error);
-    return res.status(500).json({ message: 'File upload failed', error: error.message });
+      console.error('File upload error:', error);
+      return res.status(500).json({ message: 'File upload failed', error: error.message });
   }
-});
 
+})
 
 
 hospitalRouter.get("/api/hospitalcompletedappointments",async (req,res)=>{
@@ -1237,50 +1191,48 @@ hospitalRouter.get("/api/hospitalcompletedappointments",async (req,res)=>{
 
 hospitalRouter.post("/api/hospitaleditupload/:id", upload.single('file'), async (req, res) => {
   try {
-    console.log("Request received to reupload file");
-
-    const appointmentId = req.params.id;
-    const file = req.file;
-
-    if (!file) {
-      return res.status(400).json({ message: 'No file uploaded' });
-    }
-
-    const appointment = await Appointment.findById(appointmentId);
-    if (!appointment) {
-      return res.status(404).json({ message: 'Appointment not found' });
-    }
-
-    // Delete old file from Cloudinary if it exists
-    if (appointment.documentPath) {
-      const oldUrl = appointment.documentPath;
-      const publicId = oldUrl
-        .split('/')
-        .slice(-1)[0]
-        .split('.')[0];
-
-      try {
-        await cloudinary.uploader.destroy(`documents/${publicId}`, { resource_type: 'raw' });
-        console.log("Old file deleted from Cloudinary.");
-      } catch (err) {
-        console.warn("Failed to delete old Cloudinary file:", err.message);
+      console.log("reve to reupload");
+      const appointmentId = req.params.id; // Get the appointment ID from the URL
+      const file = req.file; // The new uploaded file
+  
+      if (!file) {
+        return res.status(400).json({ message: 'No file uploaded' });
       }
+  
+      // Find the existing appointment
+      const appointment = await Appointment.findById(appointmentId);
+  
+      if (!appointment) {
+        return res.status(404).json({ message: 'Appointment not found' });
+      }
+  
+      // If there is an existing document, delete the old one
+      if (appointment.documentPath) {
+        const oldFilePath = path.join(__dirname, appointment.documentPath);
+        if (fs.existsSync(oldFilePath)) {
+          fs.unlinkSync(oldFilePath); // Delete the old file
+        }
+      }
+  
+      // Create a unique filename by appending a UUID or timestamp to the original file name
+      const uniqueFilename = `${uuidv4()}-${file.originalname}`; // Use UUID for unique filenames
+  
+      // Define the path where the new file will be saved
+      const newFilePath = path.join('uploads', uniqueFilename);
+  
+      // Move the file to the new path with the unique name
+      fs.renameSync(file.path, newFilePath);
+  
+      // Update the appointment with the new file path
+      appointment.documentPath = newFilePath;
+    
+      await appointment.save();
+  
+      res.status(200).json({ message: 'File replaced successfully', filePath: newFilePath });
+    } catch (error) {
+      console.error('File upload error:', error);
+      res.status(500).json({ message: 'File upload failed', error: error.message });
     }
-
-    // ✅ New file already uploaded by multer & CloudinaryStorage
-    // ✅ Use the public URL directly from req.file.path
-    appointment.documentPath = file.path;
-    await appointment.save();
-
-    res.status(200).json({
-      message: 'File replaced successfully',
-      filePath: file.path
-    });
-
-  } catch (error) {
-    console.error('File upload error:', error);
-    res.status(500).json({ message: 'File upload failed', error: error.message });
-  }
 });
 
 
@@ -1547,22 +1499,6 @@ app.use((req, res, next) => {
 
 
 
-app.listen(3001,()=>{
-    console.log("backend server running at 3001");
-  
-})
-
-  }catch(error){
-
-    console.error('❌ Failed to connect to MongoDB:', error.message);
-    process.exit(1); // Exit process on failure
-
-  }}
 
 
-
-  startServer(); // Kick off the app
-
-
-
-
+module.exports = app;
