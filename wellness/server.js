@@ -87,7 +87,7 @@ async function sendVerificationEmail(usermail, verificationLink) {
     service: "gmail",
     auth: {
       user: "msiva0100@gmail.com",
-      pass: "smfz ennz kbyu hzkh",
+      pass: "xivm rhxm mnlt giyy",
     },
   });
 
